@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowLeft, Music } from "lucide-react";
 import SearchBar, { useSearch } from "@/components/SearchBar";
 import BottomNav from "@/components/BottomNav";
+import TopBar from "@/components/TopBar";
 import { songs } from "@/data/songs";
 
 const Songbook = () => {
@@ -12,14 +13,13 @@ const Songbook = () => {
   const filtered = useSearch(songs, query, ["title", "number"]);
 
   return (
-    <div className="page-container">
+    <div className="page-container pb-36">
       <button onClick={() => navigate("/main")} className="mb-4 flex items-center gap-1 text-sm font-medium text-muted-foreground">
         <ArrowLeft className="h-4 w-4" /> Home
       </button>
-      <h1 className="text-2xl font-bold tracking-tight mb-4">Songbook</h1>
-      <SearchBar placeholder="Search by title or number…" value={query} onChange={setQuery} />
+      <TopBar title="Songbook" />
 
-      <div className="mt-4 space-y-1">
+      <div className="space-y-1">
         {filtered.map((song, i) => (
           <motion.button
             key={song.id}
@@ -40,6 +40,14 @@ const Songbook = () => {
           <p className="py-12 text-center text-sm text-muted-foreground">No songs found</p>
         )}
       </div>
+
+      {/* Search bar at bottom */}
+      <div className="fixed bottom-14 left-0 right-0 z-10 bg-background/90 backdrop-blur-lg px-4 py-2 border-t border-border/50" style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}>
+        <div className="mx-auto max-w-[480px]">
+          <SearchBar placeholder="Search by title or number…" value={query} onChange={setQuery} />
+        </div>
+      </div>
+
       <BottomNav />
     </div>
   );

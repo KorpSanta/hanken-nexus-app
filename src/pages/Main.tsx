@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { BookOpen, Play, Calendar, Users } from "lucide-react";
 import BottomNav from "@/components/BottomNav";
 import NewsCarousel from "@/components/NewsCarousel";
+import TopBar from "@/components/TopBar";
 
 const categories = [
   { path: "/songbook", icon: BookOpen, label: "Songbook", color: "bg-secondary" },
@@ -26,15 +27,14 @@ const Main = () => {
 
   return (
     <div className="page-container">
-      {/* Header */}
+      <TopBar title="Hanken Hub" />
+
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mb-6">
-        <h1 className="text-2xl font-bold tracking-tight">Hanken Hub</h1>
-        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+        <p className="text-sm leading-relaxed text-muted-foreground">
           Your all-in-one hub for students, alumni, and faculty of Hanken — songs, events, videos, and a community that stays connected.
         </p>
       </motion.div>
 
-      {/* Categories */}
       <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-2 gap-3 mb-8">
         {categories.map(({ path, icon: Icon, label, color }) => (
           <motion.button
@@ -51,7 +51,6 @@ const Main = () => {
         ))}
       </motion.div>
 
-      {/* News */}
       <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
         <NewsCarousel />
       </motion.div>
