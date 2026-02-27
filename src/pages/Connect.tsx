@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Linkedin, Mail, Phone, MapPin, Building2, ExternalLink } from "lucide-react";
+import { ArrowLeft, Linkedin, Mail, Phone, MapPin, Building2 } from "lucide-react";
 import { motion } from "framer-motion";
 import SearchBar, { useSearch } from "@/components/SearchBar";
 import BottomNav from "@/components/BottomNav";
+import TopBar from "@/components/TopBar";
 import { alumni, jobs, countries, type Job } from "@/data/connect";
 
 type Tab = "alumni" | "jobs";
@@ -24,11 +25,11 @@ const Connect = () => {
   const filteredJobs = useSearch(filteredType, jobQuery, ["title", "company", "location"]);
 
   return (
-    <div className="page-container">
+    <div className="page-container pb-36">
       <button onClick={() => navigate("/main")} className="mb-4 flex items-center gap-1 text-sm font-medium text-muted-foreground">
         <ArrowLeft className="h-4 w-4" /> Home
       </button>
-      <h1 className="text-2xl font-bold tracking-tight mb-4">Connect</h1>
+      <TopBar title="Connect" />
 
       {/* Tabs */}
       <div className="flex gap-1 rounded-2xl bg-secondary p-1 mb-4">
@@ -47,8 +48,7 @@ const Connect = () => {
 
       {tab === "alumni" ? (
         <>
-          <SearchBar placeholder="Search alumni by name, company, LinkedIn…" value={alumniQuery} onChange={setAlumniQuery} />
-          <div className="mt-3 flex gap-2 overflow-x-auto pb-1 no-scrollbar" style={{ scrollbarWidth: "none" }}>
+          <div className="flex gap-2 overflow-x-auto pb-1 mb-4 no-scrollbar" style={{ scrollbarWidth: "none" }}>
             <button onClick={() => setCountry("all")} className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${country === "all" ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground"}`}>
               All Countries
             </button>
@@ -58,7 +58,7 @@ const Connect = () => {
               </button>
             ))}
           </div>
-          <div className="mt-4 space-y-3">
+          <div className="space-y-3">
             {filteredAlumni.map((a, i) => (
               <motion.div key={a.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: Math.min(i * 0.05, 0.3) }} className="glass-card p-4">
                 <div className="flex items-start justify-between">
@@ -95,15 +95,14 @@ const Connect = () => {
         </>
       ) : (
         <>
-          <SearchBar placeholder="Search jobs by title, company…" value={jobQuery} onChange={setJobQuery} />
-          <div className="mt-3 flex gap-2 overflow-x-auto pb-1 no-scrollbar" style={{ scrollbarWidth: "none" }}>
+          <div className="flex gap-2 overflow-x-auto pb-1 mb-4 no-scrollbar" style={{ scrollbarWidth: "none" }}>
             {(["all", "full-time", "part-time", "club", "school", "research"] as const).map((f) => (
               <button key={f} onClick={() => setJobFilter(f)} className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-semibold capitalize transition-colors ${jobFilter === f ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground"}`}>
                 {f === "all" ? "All" : f}
               </button>
             ))}
           </div>
-          <div className="mt-4 space-y-3">
+          <div className="space-y-3">
             {filteredJobs.map((job, i) => (
               <motion.div key={job.id} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: Math.min(i * 0.05, 0.3) }} className="glass-card p-4">
                 <div className="flex items-start justify-between">
@@ -123,6 +122,17 @@ const Connect = () => {
           </div>
         </>
       )}
+
+      <div className="fixed bottom-14 left-0 right-0 z-10 bg-background/90 backdrop-blur-lg px-4 py-2 border-t border-border/50" style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}>
+        <div className="mx-auto max-w-[480px]">
+          {tab === "alumni" ? (
+            <SearchBar placeholder="Search alumni by name, company, LinkedIn…" value={alumniQuery} onChange={setAlumniQuery} />
+          ) : (
+            <SearchBar placeholder="Search jobs by title, company…" value={jobQuery} onChange={setJobQuery} />
+          )}
+        </div>
+      </div>
+
       <BottomNav />
     </div>
   );
