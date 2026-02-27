@@ -16,10 +16,10 @@ const SearchBar = ({ placeholder = "Search…", value, onChange }: SearchBarProp
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="search-input pl-11"
-      />
-    </div>
-  );
+        className="search-input pl-11 mb-[7px]" />
+
+    </div>);
+
 };
 
 export default SearchBar;
@@ -30,10 +30,10 @@ export function useSearch<T>(items: T[], query: string, keys: (keyof T)[]) {
     if (!query.trim()) return items;
     const q = query.toLowerCase();
     return items.filter((item) =>
-      keys.some((key) => {
-        const val = item[key];
-        return typeof val === "string" && val.toLowerCase().includes(q);
-      })
+    keys.some((key) => {
+      const val = item[key];
+      return typeof val === "string" && val.toLowerCase().includes(q);
+    })
     );
   }, [items, query, keys]);
 }
