@@ -1,17 +1,19 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { Home, BookOpen, Play, Calendar, Users } from "lucide-react";
-
-const tabs = [
-  { path: "/main", icon: Home, label: "Home" },
-  { path: "/songbook", icon: BookOpen, label: "Songs" },
-  { path: "/classics", icon: Play, label: "Classics" },
-  { path: "/events", icon: Calendar, label: "Events" },
-  { path: "/connect", icon: Users, label: "Connect" },
-];
+import { useLanguage } from "@/hooks/useLanguage";
 
 const BottomNav = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useLanguage();
+
+  const tabs = [
+    { path: "/main", icon: Home, label: t.nav_home },
+    { path: "/songbook", icon: BookOpen, label: t.nav_songs },
+    { path: "/classics", icon: Play, label: t.nav_classics },
+    { path: "/events", icon: Calendar, label: t.nav_events },
+    { path: "/connect", icon: Users, label: t.nav_connect },
+  ];
 
   return (
     <nav className="bottom-nav">

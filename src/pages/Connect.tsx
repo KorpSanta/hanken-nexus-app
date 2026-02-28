@@ -6,12 +6,14 @@ import SearchBar, { useSearch } from "@/components/SearchBar";
 import BottomNav from "@/components/BottomNav";
 import TopBar from "@/components/TopBar";
 import { alumni, jobs, countries, type Job } from "@/data/connect";
+import { useLanguage } from "@/hooks/useLanguage";
 
 type Tab = "alumni" | "jobs";
 type JobFilter = "all" | Job["type"];
 
 const Connect = () => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [tab, setTab] = useState<Tab>("alumni");
   const [alumniQuery, setAlumniQuery] = useState("");
   const [jobQuery, setJobQuery] = useState("");
@@ -27,21 +29,20 @@ const Connect = () => {
   return (
     <div className="page-container pb-36">
       <button onClick={() => navigate("/main")} className="mb-4 flex items-center gap-1 text-sm font-medium text-muted-foreground">
-        <ArrowLeft className="h-4 w-4" /> Home
+        <ArrowLeft className="h-4 w-4" /> {t.home}
       </button>
-      <TopBar title="Connect" />
+      <TopBar title={t.connect} />
 
-      {/* Tabs */}
       <div className="flex gap-1 rounded-2xl bg-secondary p-1 mb-4">
-        {(["alumni", "jobs"] as const).map((t) => (
+        {(["alumni", "jobs"] as const).map((tb) => (
           <button
-            key={t}
-            onClick={() => setTab(t)}
+            key={tb}
+            onClick={() => setTab(tb)}
             className={`flex-1 rounded-xl py-2 text-sm font-semibold transition-all ${
-              tab === t ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"
+              tab === tb ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"
             }`}
           >
-            {t === "alumni" ? "Alumni" : "Job Board"}
+            {tb === "alumni" ? t.alumni_tab : t.job_board}
           </button>
         ))}
       </div>
@@ -50,7 +51,7 @@ const Connect = () => {
         <>
           <div className="flex gap-2 overflow-x-auto pb-1 mb-4 no-scrollbar" style={{ scrollbarWidth: "none" }}>
             <button onClick={() => setCountry("all")} className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${country === "all" ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground"}`}>
-              All Countries
+              {t.all_countries}
             </button>
             {countries.map((c) => (
               <button key={c} onClick={() => setCountry(c)} className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${country === c ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground"}`}>
@@ -90,7 +91,7 @@ const Connect = () => {
                 </div>
               </motion.div>
             ))}
-            {filteredAlumni.length === 0 && <p className="py-12 text-center text-sm text-muted-foreground">No alumni found</p>}
+            {filteredAlumni.length === 0 && <p className="py-12 text-center text-sm text-muted-foreground">{t.no_alumni}</p>}
           </div>
         </>
       ) : (
@@ -98,7 +99,7 @@ const Connect = () => {
           <div className="flex gap-2 overflow-x-auto pb-1 mb-4 no-scrollbar" style={{ scrollbarWidth: "none" }}>
             {(["all", "full-time", "part-time", "club", "school", "research"] as const).map((f) => (
               <button key={f} onClick={() => setJobFilter(f)} className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-semibold capitalize transition-colors ${jobFilter === f ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground"}`}>
-                {f === "all" ? "All" : f}
+                {f === "all" ? t.all : f}
               </button>
             ))}
           </div>
@@ -118,7 +119,7 @@ const Connect = () => {
                 <p className="mt-2 text-xs text-muted-foreground line-clamp-2">{job.description}</p>
               </motion.div>
             ))}
-            {filteredJobs.length === 0 && <p className="py-12 text-center text-sm text-muted-foreground">No jobs found</p>}
+            {filteredJobs.length === 0 && <p className="py-12 text-center text-sm text-muted-foreground">{t.no_jobs}</p>}
           </div>
         </>
       )}
@@ -126,9 +127,9 @@ const Connect = () => {
       <div className="fixed bottom-14 left-0 right-0 z-10 bg-background/90 backdrop-blur-lg px-4 py-2 border-t border-border/50" style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}>
         <div className="mx-auto max-w-[480px]">
           {tab === "alumni" ? (
-            <SearchBar placeholder="Search alumni by name, company, LinkedIn…" value={alumniQuery} onChange={setAlumniQuery} />
+            <SearchBar placeholder={t.search_alumni} value={alumniQuery} onChange={setAlumniQuery} />
           ) : (
-            <SearchBar placeholder="Search jobs by title, company…" value={jobQuery} onChange={setJobQuery} />
+            <SearchBar placeholder={t.search_jobs} value={jobQuery} onChange={setJobQuery} />
           )}
         </div>
       </div>
