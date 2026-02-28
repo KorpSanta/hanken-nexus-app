@@ -33,7 +33,7 @@ const en = {
   language: "Language",
 
   // Main
-  hanken_hub: "Hanken Hub",
+  hanken_hub: "Hankeit",
   main_description: "Your all-in-one hub for students, alumni, and faculty of Hanken — songs, events, videos, and a community that stays connected.",
   songbook: "Songbook",
   classics: "Classics",
@@ -103,7 +103,7 @@ const sv: Translations = {
   back: "Tillbaka",
   language: "Språk",
 
-  hanken_hub: "Hanken Hub",
+  hanken_hub: "Hankeit",
   main_description: "Din allt-i-ett-hub för studenter, alumner och personal vid Hanken — sånger, evenemang, videor och en gemenskap som håller kontakten.",
   songbook: "Sångbok",
   classics: "Klassiker",
