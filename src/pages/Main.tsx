@@ -4,13 +4,7 @@ import { BookOpen, Play, Calendar, Users } from "lucide-react";
 import BottomNav from "@/components/BottomNav";
 import NewsCarousel from "@/components/NewsCarousel";
 import TopBar from "@/components/TopBar";
-
-const categories = [
-  { path: "/songbook", icon: BookOpen, label: "Songbook", color: "bg-secondary" },
-  { path: "/classics", icon: Play, label: "Classics", color: "bg-secondary" },
-  { path: "/events", icon: Calendar, label: "Events", color: "bg-secondary" },
-  { path: "/connect", icon: Users, label: "Connect", color: "bg-secondary" },
-];
+import { useLanguage } from "@/hooks/useLanguage";
 
 const container = {
   hidden: {},
@@ -24,14 +18,22 @@ const item = {
 
 const Main = () => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
+
+  const categories = [
+    { path: "/songbook", icon: BookOpen, label: t.songbook, color: "bg-secondary" },
+    { path: "/classics", icon: Play, label: t.classics, color: "bg-secondary" },
+    { path: "/events", icon: Calendar, label: t.events, color: "bg-secondary" },
+    { path: "/connect", icon: Users, label: t.connect, color: "bg-secondary" },
+  ];
 
   return (
     <div className="page-container">
-      <TopBar title="Hanken Hub" />
+      <TopBar title={t.hanken_hub} />
 
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mb-6">
         <p className="text-sm leading-relaxed text-muted-foreground">
-          Your all-in-one hub for students, alumni, and faculty of Hanken — songs, events, videos, and a community that stays connected.
+          {t.main_description}
         </p>
       </motion.div>
 

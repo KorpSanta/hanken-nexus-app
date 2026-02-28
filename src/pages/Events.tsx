@@ -7,6 +7,7 @@ import BottomNav from "@/components/BottomNav";
 import TopBar from "@/components/TopBar";
 import { events, type HankenEvent } from "@/data/events";
 import { format, parseISO } from "date-fns";
+import { useLanguage } from "@/hooks/useLanguage";
 
 const categoryLabel: Record<HankenEvent["category"], string> = {
   school: "Hanken",
@@ -18,6 +19,7 @@ const Events = () => {
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<HankenEvent["category"] | "all">("all");
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const byCategory = filter === "all" ? events : events.filter((e) => e.category === filter);
   const filtered = useSearch(byCategory, query, ["title", "organizer", "location"]);
@@ -26,11 +28,10 @@ const Events = () => {
   return (
     <div className="page-container pb-36">
       <button onClick={() => navigate("/main")} className="mb-4 flex items-center gap-1 text-sm font-medium text-muted-foreground">
-        <ArrowLeft className="h-4 w-4" /> Home
+        <ArrowLeft className="h-4 w-4" /> {t.home}
       </button>
-      <TopBar title="Events" />
+      <TopBar title={t.events} />
 
-      {/* Filters */}
       <div className="mb-4 flex gap-2">
         {(["all", "school", "shs", "club"] as const).map((cat) => (
           <button
@@ -40,7 +41,7 @@ const Events = () => {
               filter === cat ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground"
             }`}
           >
-            {cat === "all" ? "All" : categoryLabel[cat]}
+            {cat === "all" ? t.all : categoryLabel[cat]}
           </button>
         ))}
       </div>
@@ -74,13 +75,13 @@ const Events = () => {
           </motion.div>
         ))}
         {sorted.length === 0 && (
-          <p className="py-12 text-center text-sm text-muted-foreground">No events found</p>
+          <p className="py-12 text-center text-sm text-muted-foreground">{t.no_events}</p>
         )}
       </div>
 
       <div className="fixed bottom-14 left-0 right-0 z-10 bg-background/90 backdrop-blur-lg px-4 py-2 border-t border-border/50" style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}>
         <div className="mx-auto max-w-[480px]">
-          <SearchBar placeholder="Search events…" value={query} onChange={setQuery} />
+          <SearchBar placeholder={t.search_events} value={query} onChange={setQuery} />
         </div>
       </div>
 
